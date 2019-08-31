@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "Cell",
+"language": "GDScript",
+"path": "res://Cell.gd"
+}, {
+"base": "Spatial",
+"class": "Cube",
+"language": "GDScript",
+"path": "res://Cube.gd"
+}, {
+"base": "Spatial",
+"class": "Face",
+"language": "GDScript",
+"path": "res://Face.gd"
+} ]
+_global_script_class_icons={
+"Cell": "",
+"Cube": "",
+"Face": ""
+}
+
+[application]
+
+config/name="RubiksCube"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/dpi/allow_hidpi=true
+window/handheld/orientation="sensor_portrait"
+
+[rendering]
+
+environment/default_clear_color=Color( 0.14902, 0.172549, 0.231373, 1 )
+environment/default_environment="res://default_env.tres"
