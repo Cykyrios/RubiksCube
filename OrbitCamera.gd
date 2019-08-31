@@ -25,6 +25,10 @@ func _input(event):
 				dragging = true
 			else:
 				dragging = false
+		elif event.button_index == BUTTON_WHEEL_DOWN:
+			camera.translate_object_local(Vector3(0, 0, 0.5))
+		elif event.button_index == BUTTON_WHEEL_UP:
+			camera.translate_object_local(Vector3(0, 0, -0.5))
 	elif event is InputEventMouseMotion:
 		if dragging:
 			var mouse_rot = Vector2(event.relative.x, event.relative.y)
