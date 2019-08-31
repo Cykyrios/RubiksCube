@@ -1,4 +1,4 @@
-extends Spatial
+extends StaticBody
 class_name Face
 
 var mat = preload("res://FaceMaterial.tres")
