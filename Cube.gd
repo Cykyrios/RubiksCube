@@ -99,19 +99,18 @@ func init_cube():
 				cells.append(cell)
 				add_child(cell)
 				
+				cell.translate(Vector3(i, j, k) - (size - 1) / 2.0 * Vector3.ONE)
+				
 				# Normalized cell coordinates
 				var a = (i - size / 2.0 + 0.5) * 2 / (size - 1)
 				var b = (j - size / 2.0 + 0.5) * 2 / (size - 1)
 				var c = (k - size / 2.0 + 0.5) * 2 / (size - 1)
 				cell.init_cell(type, a, b, c)
-				
-				cell.translate(Vector3(i, j, k) - (size - 1) / 2.0 * Vector3.ONE)
-				pass
 
 
 func reset_cube():
 	rotating = false
 	t = 0
 	move_queue.clear()
-	delete_cube()
-	init_cube()
+	for cell in cells:
+		cell.reset()

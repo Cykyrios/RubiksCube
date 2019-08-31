@@ -6,6 +6,7 @@ enum {CENTER, EDGE, CORNER}
 var type = CENTER
 var faces = []
 
+var _xform_init : Transform
 var _xform_start : Transform
 var _xform_end : Transform
 
@@ -13,8 +14,7 @@ var face_scene = preload("res://Face.tscn")
 
 
 func _ready():
-	_xform_start = transform
-	_xform_end = transform
+	pass
 
 
 #func _process(delta):
@@ -39,6 +39,10 @@ func add_face(direction : Vector3):
 
 
 func init_cell(t : int, x : int, y : int, z : int):
+	_xform_init = transform
+	_xform_start = _xform_init
+	_xform_end = _xform_init
+	
 	type = t
 	
 	if x != 0:
@@ -47,3 +51,7 @@ func init_cell(t : int, x : int, y : int, z : int):
 		add_face(Vector3(0, y, 0))
 	if z != 0:
 		add_face(Vector3(0, 0, z))
+
+
+func reset():
+	transform = _xform_init
