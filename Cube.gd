@@ -56,6 +56,29 @@ func rotate_slice(axis : Vector3, pos : float):
 	rotating = true
 
 
+func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
+	var pos = face.get_parent().transform.origin
+	match axis:
+		Vector3(1, 0, 0), Vector3(-1, 0, 0):
+			if abs(vec.dot(Vector3(0, 1, 0))) >= abs(vec.dot(Vector3(0, 0, 1))):
+				vec = Vector3(0, 1, 0) * sign(vec.y)
+			else:
+				vec = Vector3(0, 0, 1) * sign(vec.z)
+		Vector3(0, 1, 0), Vector3(0, -1, 0):
+			if abs(vec.dot(Vector3(1, 0, 0))) >= abs(vec.dot(Vector3(0, 0, 1))):
+				vec = Vector3(1, 0, 0) * sign(vec.x)
+			else:
+				vec = Vector3(0, 0, 1) * sign(vec.z)
+		Vector3(0, 0, 1), Vector3(0, 0, -1):
+			if abs(vec.dot(Vector3(1, 0, 0))) >= abs(vec.dot(Vector3(0, 1, 0))):
+				vec = Vector3(1, 0, 0) * sign(vec.x)
+			else:
+				vec = Vector3(0, 1, 0) * sign(vec.y)
+	var rot_axis = axis.cross(vec)
+	var test = (pos * rot_axis * rot_axis).length()
+	move_queue.append([rot_axis, (pos * rot_axis).dot(rot_axis)])
+
+
 func set_size(s : int):
 	size = s
 	delete_cube()
