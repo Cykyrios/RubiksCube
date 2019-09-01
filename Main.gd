@@ -1,7 +1,7 @@
 extends Spatial
 
 onready var cube = $Cube
-onready var camera = $OrbitCamera/RotationHelper/Camera
+onready var camera = $Camera
 
 var raycast_data = [Vector3(), Vector3()]
 var raycast_plane = [Vector3(), Vector3()]
@@ -71,6 +71,13 @@ func _input(event):
 				cancel_selection()
 			else:
 				moving_camera = false
+	
+		elif event.button_index == BUTTON_WHEEL_DOWN:
+				if camera.global_transform.origin.length() < cube.size * 3:
+					camera.translate_object_local(Vector3(0, 0, 0.5))
+		elif event.button_index == BUTTON_WHEEL_UP:
+				if camera.global_transform.origin.length() > cube.size * 1.5:
+					camera.translate_object_local(Vector3(0, 0, -0.5))
 	
 	elif event is InputEventMouseMotion and moving_camera:
 		var delta = event.relative / 1000
