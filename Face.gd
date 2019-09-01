@@ -12,6 +12,9 @@ func _ready():
 	$MeshInstance.material_override = mat
 	mat.albedo_color = color
 	mat.albedo_texture = texture
+	mat.emission = color
+	mat.emission_energy = 1.0
+	mat.emission_enabled = false
 
 
 #func _process(delta):
@@ -53,6 +56,7 @@ func round_transform():
 func set_color(c : Color):
 	color = c
 	mat.albedo_color = color
+	mat.emission = color
 
 
 func set_texture(t : Texture):

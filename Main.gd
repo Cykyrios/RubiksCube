@@ -29,6 +29,7 @@ func _physics_process(delta):
 			var result = space_state.intersect_ray(raycast_data[0], raycast_data[1])
 			if result and result.collider is Face:
 				selected_face = result.collider as Face
+				highlight_selection(true)
 				raycast_plane[0] = selected_face.global_transform.basis.z
 				raycast_plane[1] = result.position
 			else:
@@ -45,6 +46,7 @@ func _physics_process(delta):
 				var move = intersection - p
 				dg.draw_debug_arrow(10, intersection, n)
 				dg.draw_debug_arrow(10, p, move)
+				highlight_selection(false)
 				
 				var view = camera.get_viewport().size
 				var unproj = camera.unproject_position(intersection) - camera.unproject_position(p)
@@ -89,6 +91,10 @@ func cancel_selection():
 		select_event = false
 		highlight_selection(false)
 		selected_face = null
+
+
+func highlight_selection(enabled : bool):
+	selected_face.mat.emission_enabled = enabled
 
 
 func process_move(vec : Vector3):
