@@ -30,6 +30,7 @@ func _process(delta):
 			t = 0
 			for cell in rotating_cells:
 				cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2)
+				cell.round_transform()
 	elif not move_queue.empty():
 		var move = move_queue[0]
 		rotate_slice(move[0], move[1])

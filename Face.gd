@@ -37,6 +37,17 @@ func init_face(direction : Vector3):
 			set_color(Color(1, 1, 1))
 		Vector3(0, 0, 1):
 			set_color(Color(1, 1, 0))
+	round_transform()
+
+
+func round_transform():
+	var o = transform.origin
+	var b = transform.basis
+	var x = Vector3(stepify(b.x.x, 1), stepify(b.x.y, 1), stepify(b.x.z, 1))
+	var y = Vector3(stepify(b.y.x, 1), stepify(b.y.y, 1), stepify(b.y.z, 1))
+	var z = Vector3(stepify(b.z.x, 1), stepify(b.z.y, 1), stepify(b.z.z, 1))
+	o = Vector3(stepify(o.x, 0.5), stepify(o.y, 0.5), stepify(o.z, 0.5))
+	transform = Transform(x, y, z, o).orthonormalized()
 
 
 func set_color(c : Color):
