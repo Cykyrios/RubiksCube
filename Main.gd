@@ -44,6 +44,8 @@ func _physics_process(delta):
 				var d = (p - l).dot(n) / direction.dot(n)
 				var intersection = l + d * direction
 				var move = intersection - p
+				if d < 0:
+					move = -move
 				dg.draw_debug_arrow(10, intersection, n)
 				dg.draw_debug_arrow(10, p, move)
 				highlight_selection(false)
