@@ -10,6 +10,7 @@ var rotating = false
 var rotation_axis = Vector3()
 var t = 0.0
 var rotation_duration = 0.5
+var animation_time = 0.0
 var move_queue = []
 
 var cell_scene = preload("res://Cell.tscn")
@@ -22,7 +23,10 @@ func _ready():
 
 func _process(delta):
 	if rotating:
-		t += delta / rotation_duration
+		if animation_time > 0:
+			t += delta / animation_time
+		else:
+			t = 1
 		for cell in rotating_cells:
 			cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2 * t)
 		if t >= 1:
@@ -31,22 +35,31 @@ func _process(delta):
 			for cell in rotating_cells:
 				cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2)
 				cell.round_transform()
-	elif not move_queue.empty():
-		var move = move_queue[0]
-		rotate_slice(move[0], move[1])
-		move_queue.remove(0)
+	else:
+		play_next_move()
 
 
 func _input(event):
 	if event.is_action_pressed("ui_home"):
 		reset_cube()
 	if event.is_action_pressed("ui_up"):
-		move_queue.append([Vector3(0, 1, 0), 1])
+		add_move(Vector3(0, 1, 0), 1)
 	if event.is_action_pressed("ui_right"):
-		move_queue.append([Vector3(1, 0, 0), 1])
+		add_move(Vector3(1, 0, 0), 1)
 
 
-func rotate_slice(axis : Vector3, pos : float):
+func add_move(axis : Vector3, pos : float, time : float = rotation_duration):
+	move_queue.append([axis, pos, time])
+
+
+func play_next_move():
+	if not move_queue.empty():
+		var move = move_queue[0]
+		rotate_slice(move[0], move[1], move[2])
+		move_queue.remove(0)
+
+
+func rotate_slice(axis : Vector3, pos : float, time : float):
 	rotating_cells = []
 	for cell in cells:
 		if axis * cell.global_transform.origin == axis * pos:
@@ -54,6 +67,7 @@ func rotate_slice(axis : Vector3, pos : float):
 			cell.set_target_rotation(axis, pos)
 	rotation_axis = axis
 	rotating = true
+	animation_time = time
 
 
 func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
@@ -76,7 +90,7 @@ func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
 				vec = Vector3(0, 1, 0) * sign(vec.y)
 	var rot_axis = axis.cross(vec)
 	var test = (pos * rot_axis * rot_axis).length()
-	move_queue.append([rot_axis, (pos * rot_axis).dot(rot_axis)])
+	add_move(rot_axis, (pos * rot_axis).dot(rot_axis))
 
 
 func set_size(s : int):
