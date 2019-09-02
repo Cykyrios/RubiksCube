@@ -42,6 +42,8 @@ func _process(delta):
 func _input(event):
 	if event.is_action_pressed("ui_home"):
 		reset_cube()
+	if event.is_action_pressed("ui_end"):
+		scramble_cube()
 	if event.is_action_pressed("ui_up"):
 		add_move(Vector3(0, 1, 0), 1)
 	if event.is_action_pressed("ui_right"):
@@ -68,6 +70,28 @@ func rotate_slice(axis : Vector3, pos : float, time : float):
 	rotation_axis = axis
 	rotating = true
 	animation_time = time
+
+
+func scramble_cube():
+	randomize()
+	var num = 20 + randi() % 20
+	for i in range(num):
+		var axis = randi() % 6
+		match axis:
+			0:
+				axis = Vector3.RIGHT
+			1:
+				axis = Vector3.LEFT
+			2:
+				axis = Vector3.UP
+			3:
+				axis = Vector3.DOWN
+			4:
+				axis = Vector3.FORWARD
+			5:
+				axis = Vector3.BACK
+		var pos = 0.5 - size / 2.0 + randi() % size
+		add_move(axis, pos, 0)
 
 
 func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
