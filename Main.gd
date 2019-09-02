@@ -86,6 +86,40 @@ func _input(event):
 		var pos = camera.transform.origin
 		camera.transform = camera.transform.translated(-pos).rotated(camera.global_transform.basis.x,
 				-delta.y).rotated(camera.global_transform.basis.y, -delta.x).translated(pos)
+	
+	elif event is InputEventScreenTouch:
+		if event.index == 0:
+			if event.is_pressed():
+				screen_touches[0] = event.position
+				select_event = true
+			else:
+				select_event = false
+				if moving_camera:
+					moving_camera = false
+			cast_ray(event.position)
+		elif event.index == 1:
+			if event.is_pressed():
+				screen_touches[1] = event.position
+				moving_camera = true
+				cancel_selection()
+	
+	elif event is InputEventScreenDrag:
+		if moving_camera and event.index <= 1:
+			var idx = event.index
+			var pos = camera.transform.origin
+			var basis = camera.global_transform.basis
+			var rot_z = (screen_touches[idx] - screen_touches[idx - 1]).angle_to(event.position - screen_touches[idx - 1])
+			var rot_x = -(event.position.x - screen_touches[idx].x) / 1000
+			var rot_y = -(event.position.y - screen_touches[idx].y) / 1000
+			var zoom = -((event.position - screen_touches[idx - 1]).length()
+					- (screen_touches[idx] - screen_touches[idx - 1]).length()) / 200
+			if camera.global_transform.origin.length() < cube.size * 1.5 and zoom < 0:
+				zoom = 0
+			if camera.global_transform.origin.length() > cube.size * 3 and zoom > 0:
+				zoom = 0
+			camera.transform = camera.transform.translated(-pos).rotated(basis.z, rot_z
+					).rotated(basis.x, rot_y).rotated(basis.y, rot_x).translated(pos).translated(Vector3(0, 0, zoom))
+			screen_touches[idx] = event.position
 
 
 func cast_ray(screen_pos : Vector2):
