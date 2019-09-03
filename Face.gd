@@ -5,6 +5,9 @@ var mat = preload("res://FaceMaterial.tres")
 var color = Color(0, 0, 0, 1)
 var texture : ImageTexture
 
+enum {TOP, BOTTOM, FRONT, BACK, LEFT, RIGHT}
+var side : int
+
 
 func _ready():
 	mat = mat.duplicate(true)
@@ -25,20 +28,26 @@ func init_face(direction : Vector3):
 		Vector3(1, 0, 0):
 			rotate(Vector3(0, 1, 0), PI / 2)
 			set_color(Color(0, 0, 1))
+			side = RIGHT
 		Vector3(-1, 0, 0):
 			rotate(Vector3(0, 1, 0), -PI / 2)
 			set_color(Color(0, 1, 0))
+			side = LEFT
 		Vector3(0, -1, 0):
 			rotate(Vector3(1, 0, 0), PI / 2)
 			set_color(Color(1, 0.5, 0))
+			side = BOTTOM
 		Vector3(0, 1, 0):
 			rotate(Vector3(1, 0, 0), -PI / 2)
 			set_color(Color(1, 0, 0))
+			side = TOP
 		Vector3(0, 0, -1):
 			rotate(Vector3(0, 1, 0), PI)
 			set_color(Color(1, 1, 1))
+			side = BACK
 		Vector3(0, 0, 1):
 			set_color(Color(1, 1, 0))
+			side = FRONT
 	round_transform()
 
 
