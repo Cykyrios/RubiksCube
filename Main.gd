@@ -13,6 +13,10 @@ var moving_camera = false
 
 var screen_touches = [Vector2(), Vector2()]
 
+export (float, 0.2, 5) var move_threshold = 0.5
+export (float, 0.2, 5) var mouse_sensitivity = 1.0
+export (float, 0.2, 5) var touch_sensitivity = 1.0
+
 
 func _ready():
 	pass # Replace with function body.
@@ -51,7 +55,7 @@ func _physics_process(delta):
 				
 				var view = camera.get_viewport().size
 				var unproj = camera.unproject_position(intersection) - camera.unproject_position(p)
-				if unproj.length() >= 0.1 * min(view.x, view.y):
+				if unproj.length() >= 0.1 * move_threshold * min(view.x, view.y):
 					process_move(move)
 				selected_face = null
 
@@ -81,7 +85,7 @@ func _input(event):
 					camera.translate_object_local(Vector3(0, 0, -0.5))
 	
 	elif event is InputEventMouseMotion and moving_camera:
-		var delta = event.relative / 1000
+		var delta = event.relative / 300 * mouse_sensitivity
 		var pos = camera.transform.origin
 		camera.transform = camera.transform.translated(-pos).rotated(camera.global_transform.basis.x,
 				-delta.y).rotated(camera.global_transform.basis.y, -delta.x).translated(pos)
@@ -108,8 +112,8 @@ func _input(event):
 			var pos = camera.transform.origin
 			var basis = camera.global_transform.basis
 			var rot_z = (screen_touches[idx] - screen_touches[idx - 1]).angle_to(event.position - screen_touches[idx - 1])
-			var rot_x = -(event.position.x - screen_touches[idx].x) / 1000
-			var rot_y = -(event.position.y - screen_touches[idx].y) / 1000
+			var rot_x = -(event.position.x - screen_touches[idx].x) / 1000 * touch_sensitivity
+			var rot_y = -(event.position.y - screen_touches[idx].y) / 1000 * touch_sensitivity
 			var zoom = -((event.position - screen_touches[idx - 1]).length()
 					- (screen_touches[idx] - screen_touches[idx - 1]).length()) / 200
 			if camera.global_transform.origin.length() < cube.size * 1.5 and zoom < 0:
