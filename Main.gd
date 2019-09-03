@@ -11,6 +11,7 @@ var selected_face : Face = null
 
 var moving_camera = false
 
+var screen_touches = [Vector2(), Vector2()]
 
 
 func _ready():
