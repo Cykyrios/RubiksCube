@@ -47,8 +47,6 @@ func _physics_process(delta):
 				var move = intersection - p
 				if d < 0:
 					move = -move
-				dg.draw_debug_arrow(10, intersection, n)
-				dg.draw_debug_arrow(10, p, move)
 				highlight_selection(false)
 				
 				var view = camera.get_viewport().size

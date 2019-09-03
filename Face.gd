@@ -8,7 +8,6 @@ var texture : ImageTexture
 
 func _ready():
 	mat = mat.duplicate(true)
-#	$MeshInstance.mesh.surface_set_material(0, mat)
 	$MeshInstance.material_override = mat
 	mat.albedo_color = color
 	mat.albedo_texture = texture
