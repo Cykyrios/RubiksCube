@@ -23,18 +23,19 @@ func _ready():
 
 func _process(delta):
 	if rotating:
+		while animation_time <= 0 and not move_queue.empty():
+			rotate_cells()
+			play_next_move()
 		if animation_time > 0:
 			t += delta / animation_time
 		else:
 			t = 1
-		for cell in rotating_cells:
-			cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2 * t)
-		if t >= 1:
+		if t < 1:
+			rotate_cells(t)
+		else:
 			rotating = false
 			t = 0
-			for cell in rotating_cells:
-				cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2)
-				cell.round_transform()
+			rotate_cells()
 	else:
 		play_next_move()
 
@@ -59,6 +60,13 @@ func play_next_move():
 		var move = move_queue[0]
 		rotate_slice(move[0], move[1], move[2])
 		move_queue.remove(0)
+
+
+func rotate_cells(weight : float = 1.0):
+	for cell in rotating_cells:
+		cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2 * weight)
+		if weight == 1.0:
+			cell.round_transform()
 
 
 func rotate_slice(axis : Vector3, pos : float, time : float):
