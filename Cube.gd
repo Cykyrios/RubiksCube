@@ -9,7 +9,8 @@ var rotating_cells = []
 var rotating = false
 var rotation_axis = Vector3()
 var t = 0.0
-var rotation_duration = 0.5
+export (float, 0.1, 1.0) var rotation_duration = 0.25
+export (float, 0.0, 0.1) var scramble_time = 0.001
 var animation_time = 0.0
 var move_queue = []
 
@@ -99,7 +100,7 @@ func scramble_cube():
 			5:
 				axis = Vector3.BACK
 		var pos = 0.5 - size / 2.0 + randi() % size
-		add_move(axis, pos, 0)
+		add_move(axis, pos, scramble_time)
 
 
 func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
