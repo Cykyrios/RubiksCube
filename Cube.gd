@@ -14,6 +14,8 @@ export (float, 0.0, 0.1) var scramble_time = 0.001
 var animation_time = 0.0
 var move_queue = []
 
+export (bool) var check_orientation = false
+
 var cell_scene = preload("res://Cell.tscn")
 
 
@@ -37,6 +39,7 @@ func _process(delta):
 			rotating = false
 			t = 0
 			rotate_cells()
+			is_solved(check_orientation)
 	else:
 		play_next_move()
 
@@ -101,6 +104,31 @@ func scramble_cube():
 				axis = Vector3.BACK
 		var pos = 0.5 - size / 2.0 + randi() % size
 		add_move(axis, pos, scramble_time)
+
+
+func is_solved(check_face_orientation = false):
+	var solved = false
+	for i in range(6):
+		var normal = Vector3.ZERO
+		var tangent = Vector3.ZERO
+		for cell in cells:
+			for face in cell.faces:
+				if face.side != i:
+					continue
+				else:
+					if normal == Vector3.ZERO:
+						normal = (cell.transform * face.transform).basis.z
+					else:
+						if (cell.transform * face.transform).basis.z != normal:
+							return false
+					if check_face_orientation:
+						if tangent == Vector3.ZERO:
+							tangent = (cell.transform * face.transform).basis.x
+						else:
+							if (cell.transform * face.transform).basis.x != tangent:
+								return false
+	print("Solved!")
+	return true
 
 
 func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
