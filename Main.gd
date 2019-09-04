@@ -19,7 +19,9 @@ export (float, 0.2, 5) var touch_sensitivity = 1.0
 
 
 func _ready():
-	pass # Replace with function body.
+	var cam_offset = camera.global_transform.origin
+	camera.transform = camera.transform.translated(-cam_offset).rotated(Vector3.RIGHT, -PI / 6
+			).rotated(Vector3.UP, PI / 6).translated(cam_offset)
 
 
 #func _process(delta):
