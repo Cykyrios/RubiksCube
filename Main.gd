@@ -1,5 +1,6 @@
 extends Spatial
 
+onready var gui = $GUI
 onready var cube = $Cube
 onready var camera = $Camera
 
@@ -19,6 +20,10 @@ export (float, 0.2, 5) var touch_sensitivity = 1.0
 
 
 func _ready():
+	gui.connect("gui_scramble", self, "_on_gui_scramble")
+	gui.connect("gui_reset", self, "_on_gui_reset")
+	gui.connect("gui_change_size", self, "_on_gui_change_size")
+	
 	var cam_offset = camera.global_transform.origin
 	camera.transform = camera.transform.translated(-cam_offset).rotated(Vector3.RIGHT, -PI / 6
 			).rotated(Vector3.UP, PI / 6).translated(cam_offset)
@@ -158,3 +163,16 @@ func process_move(vec : Vector3):
 		else:
 			dot = face_basis.z.dot(cube_basis.z)
 			cube.move_from_raycast(selected_face, Vector3(0, 0, 1) * sign(dot), vec)
+
+
+func _on_gui_scramble():
+	cube.scramble_cube()
+
+
+func _on_gui_reset():
+	cube.reset_cube()
+
+
+func _on_gui_change_size(size : int):
+	cube.set_size(size)
+	print("yay")

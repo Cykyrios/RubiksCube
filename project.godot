@@ -38,12 +38,19 @@ config/icon="res://icon.png"
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=1080
+window/size/height=1920
+window/size/test_width=1280
+window/size/test_height=720
 window/dpi/allow_hidpi=true
-window/handheld/orientation="sensor_portrait"
+window/handheld/orientation="sensor"
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
+threads/thread_model=2
+quality/filters/anisotropic_filter_level=8
+vram_compression/import_etc=true
 environment/default_clear_color=Color( 0.14902, 0.172549, 0.231373, 1 )
+quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
