@@ -143,8 +143,9 @@ func cast_ray(screen_pos : Vector2):
 func cancel_selection():
 	if select_event:
 		select_event = false
-		highlight_selection(false)
-		selected_face = null
+		if selected_face:
+			highlight_selection(false)
+			selected_face = null
 
 
 func highlight_selection(enabled : bool):
