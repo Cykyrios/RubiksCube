@@ -1,4 +1,4 @@
-extends Spatial
+extends StaticBody
 class_name Cell
 
 enum {CENTER, EDGE, CORNER}

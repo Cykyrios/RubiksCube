@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Spatial",
+"base": "StaticBody",
 "class": "Cell",
 "language": "GDScript",
 "path": "res://Cell.gd"
