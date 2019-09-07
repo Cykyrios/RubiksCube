@@ -46,8 +46,9 @@ func init_face(direction : Vector3):
 	
 	if get_parent().get_parent().show_textures:
 		set_texture(get_parent().get_parent().textures[side])
-		set_color(Color(1, 1, 1))
+		set_color(Color(1, 1, 1), false)
 	else:
+		set_texture(null)
 		set_color(get_parent().get_parent().colors[side])
 
 
@@ -61,12 +62,16 @@ func round_transform():
 	transform = Transform(x, y, z, o).orthonormalized()
 
 
-func set_color(c : Color):
+func set_color(c : Color, emission : bool = true):
 	color = c
 	mat.albedo_color = color
-	mat.emission = color
+	if emission:
+		mat.emission = color
+	else:
+		mat.emission = Color(0, 0, 0)
 
 
 func set_texture(t : Texture):
 	texture = t
 	mat.albedo_texture = texture
+	mat.emission_texture = texture
