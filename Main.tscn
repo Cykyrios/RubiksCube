@@ -21,41 +21,41 @@ current = true
 
 [node name="OmniLight1" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, -5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight2" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight3" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight4" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, -5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight5" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, -5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight6" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight7" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
 [node name="OmniLight8" type="OmniLight" parent="Lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, -5 )
-light_energy = 0.2
+light_energy = 0.5
 omni_range = 20.0
 
