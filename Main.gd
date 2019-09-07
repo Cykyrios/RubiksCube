@@ -35,10 +35,6 @@ func _ready():
 		$Camera/PerformanceLights.queue_free()
 
 
-#func _process(delta):
-#	pass
-
-
 func _physics_process(delta):
 	if raycast_event:
 		raycast_event = false
@@ -183,4 +179,3 @@ func _on_gui_reset():
 
 func _on_gui_change_size(size : int):
 	cube.set_size(size)
-	print("yay")

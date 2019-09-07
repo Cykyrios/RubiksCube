@@ -49,17 +49,6 @@ func _process(delta):
 		play_next_move()
 
 
-func _input(event):
-	if event.is_action_pressed("ui_home"):
-		reset_cube()
-	if event.is_action_pressed("ui_end"):
-		scramble_cube()
-	if event.is_action_pressed("ui_up"):
-		add_move(Vector3(0, 1, 0), 1)
-	if event.is_action_pressed("ui_right"):
-		add_move(Vector3(1, 0, 0), 1)
-
-
 func add_move(axis : Vector3, pos : float, time : float = rotation_duration):
 	move_queue.append([axis, pos, time])
 
@@ -112,7 +101,6 @@ func scramble_cube():
 
 
 func is_solved(check_face_orientation = false):
-	var solved = false
 	for i in range(6):
 		var normal = Vector3.ZERO
 		var tangent = Vector3.ZERO
@@ -155,7 +143,6 @@ func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
 			else:
 				vec = Vector3(0, 1, 0) * sign(vec.y)
 	var rot_axis = axis.cross(vec)
-	var test = (pos * rot_axis * rot_axis).length()
 	add_move(rot_axis, (pos * rot_axis).dot(rot_axis))
 
 
