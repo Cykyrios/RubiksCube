@@ -27,6 +27,12 @@ func _ready():
 	var cam_offset = camera.global_transform.origin
 	camera.transform = camera.transform.translated(-cam_offset).rotated(Vector3.RIGHT, -PI / 6
 			).rotated(Vector3.UP, PI / 6).translated(cam_offset)
+	
+	# Delete QualityLights on mobile to increase performance
+	if OS.get_name() == "Android":
+		$QualityLights.queue_free()
+	else:
+		$Camera/PerformanceLights.queue_free()
 
 
 #func _process(delta):
