@@ -27,28 +27,28 @@ func init_face(direction : Vector3):
 	match direction:
 		Vector3(1, 0, 0):
 			rotate(Vector3(0, 1, 0), PI / 2)
-			set_color(Color(0, 0, 1))
 			side = RIGHT
 		Vector3(-1, 0, 0):
 			rotate(Vector3(0, 1, 0), -PI / 2)
-			set_color(Color(0, 1, 0))
 			side = LEFT
 		Vector3(0, -1, 0):
 			rotate(Vector3(1, 0, 0), PI / 2)
-			set_color(Color(1, 0.5, 0))
 			side = BOTTOM
 		Vector3(0, 1, 0):
 			rotate(Vector3(1, 0, 0), -PI / 2)
-			set_color(Color(1, 0, 0))
 			side = TOP
 		Vector3(0, 0, -1):
 			rotate(Vector3(0, 1, 0), PI)
-			set_color(Color(1, 1, 1))
 			side = BACK
 		Vector3(0, 0, 1):
-			set_color(Color(1, 1, 0))
 			side = FRONT
 	round_transform()
+	
+	if get_parent().get_parent().show_textures:
+		set_texture(get_parent().get_parent().textures[side])
+		set_color(Color(1, 1, 1))
+	else:
+		set_color(get_parent().get_parent().colors[side])
 
 
 func round_transform():
