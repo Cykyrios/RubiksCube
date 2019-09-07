@@ -75,3 +75,8 @@ func set_texture(t : Texture):
 	texture = t
 	mat.albedo_texture = texture
 	mat.emission_texture = texture
+
+
+func set_face_uv(scale : Vector3, offset : Vector3):
+	mat.uv1_scale = scale
+	mat.uv1_offset = offset

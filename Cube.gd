@@ -197,6 +197,7 @@ func init_cube():
 				var b = (j - size / 2.0 + 0.5) * 2 / (size - 1)
 				var c = (k - size / 2.0 + 0.5) * 2 / (size - 1)
 				cell.init_cell(type, a, b, c)
+	update_faces_uv()
 
 
 func reset_cube():
@@ -205,3 +206,36 @@ func reset_cube():
 	move_queue.clear()
 	for cell in cells:
 		cell.reset()
+
+
+func update_faces_uv(tile = false):
+	if tile:
+		for cell in cells:
+			for face in cell.faces:
+				face.set_face_uv(Vector3.ONE, Vector3(0, 0, 0))
+	else:
+		var uv_size = Vector3.ONE / size
+		for cell in cells:
+			# Transform cell pos into offset-normalized cell coordinates
+			var pos = cell.transform.origin
+			pos = Vector3((pos.x - size / 2.0 - 0.5) / size + 1,
+					(pos.y - size / 2.0 - 0.5) / size + 1,
+					(pos.z - size / 2.0 - 0.5) / size + 1)
+			
+			for face in cell.faces:
+				var uv_offset = Vector3.ZERO
+				var face_normal = (cell.transform * face.transform).basis.z
+				match face_normal:
+					Vector3(1, 0, 0):
+						uv_offset = Vector3(1 - 1.0 / size - pos.z, 1 - 1.0 / size - pos.y, 0)
+					Vector3(-1, 0, 0):
+						uv_offset = Vector3(pos.z, 1 - 1.0 / size - pos.y, 0)
+					Vector3(0, 1, 0):
+						uv_offset = Vector3(pos.x, pos.z, 0)
+					Vector3(0, -1, 0):
+						uv_offset = Vector3(pos.x, 1 - 1.0 / size - pos.z, 0)
+					Vector3(0, 0, 1):
+						uv_offset = Vector3(pos.x, 1 - 1.0 / size - pos.y, 0)
+					Vector3(0, 0, -1):
+						uv_offset = Vector3(1 - 1.0 / size - pos.x, 1 - 1.0 / size - pos.y, 0)
+				face.set_face_uv(uv_size, uv_offset)
