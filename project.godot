@@ -35,6 +35,7 @@ _global_script_class_icons={
 config/name="RubiksCube"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+config/use_hidpi=true
 
 [display]
 
@@ -45,12 +46,40 @@ window/size/test_height=720
 window/dpi/allow_hidpi=true
 window/handheld/orientation="sensor"
 
+[gui]
+
+theme/use_hidpi=true
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": true,
+"flags/anisotropic": true,
+"flags/filter": true,
+"flags/mipmaps": true,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
 [rendering]
 
-quality/driver/driver_name="GLES2"
 threads/thread_model=2
-quality/filters/anisotropic_filter_level=8
+quality/filters/anisotropic_filter_level=16
 vram_compression/import_etc=true
+quality/shadow_atlas/size=8192
+quality/shadows/filter_mode=2
 environment/default_clear_color=Color( 0.14902, 0.172549, 0.231373, 1 )
-quality/filters/msaa=2
+quality/filters/msaa=3
 environment/default_environment="res://default_env.tres"
