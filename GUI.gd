@@ -9,6 +9,8 @@ signal gui_scramble
 signal gui_reset
 signal gui_change_size
 
+onready var time_label = $LabelTime
+
 
 func _ready():
 	pass # Replace with function body.
@@ -16,6 +18,13 @@ func _ready():
 
 #func _process(delta):
 #	pass
+
+
+func update_time_label(time : float):
+	var minutes = floor(time / 60) as int
+	var seconds = (time - minutes * 60) as int
+	var dec = (time - minutes * 60 - seconds) * 100 as int
+	time_label.text = "Time: %02d:%02d.%02d" % [minutes, seconds, dec]
 
 
 func _on_ButtonMenu_pressed():
