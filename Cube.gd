@@ -23,6 +23,8 @@ export (bool) var check_orientation = false
 
 var cell_scene = preload("res://Cell.tscn")
 
+signal solved
+
 
 
 func _ready():
@@ -121,6 +123,7 @@ func is_solved(check_face_orientation = false):
 							if (cell.transform * face.transform).basis.x != tangent:
 								return false
 	print("Solved!")
+	emit_signal("solved")
 	return true
 
 

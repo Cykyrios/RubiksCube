@@ -18,8 +18,17 @@ export (float, 0.2, 5) var move_threshold = 0.5
 export (float, 0.2, 5) var mouse_sensitivity = 1.0
 export (float, 0.2, 5) var touch_sensitivity = 1.0
 
+var timer_running = false
+var time = 0.0
+
+signal first_move_made
+
 
 func _ready():
+	connect("first_move_made", self, "_on_first_move")
+	
+	cube.connect("solved", self, "_on_cube_solved")
+	
 	gui.connect("gui_scramble", self, "_on_gui_scramble")
 	gui.connect("gui_reset", self, "_on_gui_reset")
 	gui.connect("gui_change_size", self, "_on_gui_change_size")
@@ -33,6 +42,11 @@ func _ready():
 		$QualityLights.queue_free()
 	else:
 		$Camera/PerformanceLights.queue_free()
+
+
+func _process(delta):
+	if timer_running:
+		gui.update_time_label(time)
 
 
 func _physics_process(delta):
@@ -66,7 +80,12 @@ func _physics_process(delta):
 				var unproj = camera.unproject_position(intersection) - camera.unproject_position(p)
 				if unproj.length() >= 0.1 * move_threshold * min(view.x, view.y):
 					process_move(move)
+					if not timer_running:
+						emit_signal("first_move_made")
 				selected_face = null
+	
+	if timer_running:
+		time += delta
 
 
 func _input(event):
@@ -171,11 +190,40 @@ func process_move(vec : Vector3):
 
 func _on_gui_scramble():
 	cube.scramble_cube()
+	time = 0.0
+	timer_running = false
+	gui.update_time_label(time)
 
 
 func _on_gui_reset():
 	cube.reset_cube()
+	time = 0.0
+	timer_running = false
+	gui.update_time_label(time)
 
 
 func _on_gui_change_size(size : int):
 	cube.set_size(size)
+
+
+func _on_first_move():
+	reset_timer()
+	start_timer()
+
+
+func _on_cube_solved():
+	stop_timer()
+	gui.update_time_label(time)
+
+
+func start_timer():
+	timer_running = true
+
+
+func stop_timer():
+	timer_running = false
+
+
+func reset_timer():
+	time = 0.0
+	gui.update_time_label(time)
