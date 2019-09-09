@@ -91,22 +91,17 @@ func scramble_cube():
 	randomize()
 	var num = 20 + randi() % 20
 	for i in range(num):
-		var axis = randi() % 6
+		var axis = randi() % 3
 		match axis:
 			0:
-				axis = Vector3.RIGHT
+				axis = Vector3(1, 0, 0)
 			1:
-				axis = Vector3.LEFT
+				axis = Vector3(0, 1, 0)
 			2:
-				axis = Vector3.UP
-			3:
-				axis = Vector3.DOWN
-			4:
-				axis = Vector3.FORWARD
-			5:
-				axis = Vector3.BACK
+				axis = Vector3(0, 0, 1)
+		var angle_sign = 1 - 2 * (randi() % 2)
 		var pos = 0.5 - size / 2.0 + randi() % size
-		var angle = PI / 2
+		var angle = PI / 2 * (1 + randi() % 2) * angle_sign
 		add_move(axis, pos, pos, angle, scramble_time)
 
 
