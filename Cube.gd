@@ -13,6 +13,7 @@ var cells = []
 var rotating_cells = []
 var rotating = false
 var rotation_axis = Vector3()
+var rotation_angle = 0.0
 var t = 0.0
 export (float, 0.1, 1.0) var rotation_duration = 0.25
 export (float, 0.0, 0.1) var scramble_time = 0.001
@@ -34,48 +35,54 @@ func _ready():
 func _process(delta):
 	if rotating:
 		while animation_time <= 0 and not move_queue.empty():
-			rotate_cells()
+			rotate_cells(rotation_angle)
 			play_next_move()
 		if animation_time > 0:
 			t += delta / animation_time
 		else:
 			t = 1
 		if t < 1:
-			rotate_cells(t)
+			rotate_cells(rotation_angle, t)
 		else:
 			rotating = false
 			t = 0
-			rotate_cells()
+			rotate_cells(rotation_angle)
 			is_solved(check_orientation)
 	else:
 		play_next_move()
 
 
-func add_move(axis : Vector3, pos : float, time : float = rotation_duration):
-	move_queue.append([axis, pos, time])
+func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : float = PI / 2, time : float = rotation_duration):
+	move_queue.append([axis, pos1, pos2, angle, time])
 
 
 func play_next_move():
 	if not move_queue.empty():
 		var move = move_queue[0]
-		rotate_slice(move[0], move[1], move[2])
+		rotate_slice(move[0], move[1], move[2], move[3], move[4])
 		move_queue.remove(0)
 
 
-func rotate_cells(weight : float = 1.0):
+func rotate_cells(angle : float = PI / 2, weight : float = 1.0):
 	for cell in rotating_cells:
-		cell.transform = cell.rotated_around_origin(rotation_axis, PI / 2 * weight)
+		cell.transform = cell.rotated_around_origin(rotation_axis, angle * weight)
 		if weight == 1.0:
 			cell.round_transform()
 
 
-func rotate_slice(axis : Vector3, pos : float, time : float):
+func rotate_slice(axis : Vector3, pos1 : float, pos2 : float, angle : float = PI / 2, time : float = rotation_duration):
 	rotating_cells = []
+	var num = abs(pos2 - pos1)
+	var start = min(pos1, pos2)
+	var targets = []
+	for i in range(num + 1):
+		targets.append((start + i) * axis)
 	for cell in cells:
-		if axis * cell.global_transform.origin == axis * pos:
+		if axis * cell.transform.origin in targets:
 			rotating_cells.append(cell)
-			cell.set_target_rotation(axis, pos)
+			cell.set_target_rotation(axis, angle)
 	rotation_axis = axis
+	rotation_angle = angle
 	rotating = true
 	animation_time = time
 
@@ -99,7 +106,8 @@ func scramble_cube():
 			5:
 				axis = Vector3.BACK
 		var pos = 0.5 - size / 2.0 + randi() % size
-		add_move(axis, pos, scramble_time)
+		var angle = PI / 2
+		add_move(axis, pos, pos, angle, scramble_time)
 
 
 func is_solved(check_face_orientation = false):
@@ -127,7 +135,7 @@ func is_solved(check_face_orientation = false):
 	return true
 
 
-func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
+func move_from_raycast(face : Face, axis : Vector3, vec : Vector3, angle : float = PI / 2):
 	var pos = face.get_parent().transform.origin
 	match axis:
 		Vector3(1, 0, 0), Vector3(-1, 0, 0):
@@ -146,7 +154,8 @@ func move_from_raycast(face : Face, axis : Vector3, vec : Vector3):
 			else:
 				vec = Vector3(0, 1, 0) * sign(vec.y)
 	var rot_axis = axis.cross(vec)
-	add_move(rot_axis, (pos * rot_axis).dot(rot_axis))
+	pos = (pos * rot_axis).dot(rot_axis)
+	add_move(rot_axis, pos, pos, angle)
 
 
 func set_size(s : int):
