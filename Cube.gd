@@ -32,6 +32,49 @@ func _ready():
 	init_cube()
 
 
+func _input(event):
+	if event is InputEventKey and event.is_pressed() and not event.echo:
+		var move = ""
+		match event.scancode:
+			KEY_F:
+				move = "F"
+			KEY_B:
+				move = "B"
+			KEY_L:
+				move = "L"
+			KEY_R:
+				move = "R"
+			KEY_U:
+				move = "U"
+			KEY_D:
+				move = "D"
+			KEY_M:
+				move = "M"
+			KEY_E:
+				move = "E"
+			KEY_S:
+				move = "S"
+			KEY_X:
+				move = "X"
+			KEY_Y:
+				move = "Y"
+			KEY_Z:
+				move = "Z"
+			_:
+				return
+		
+		if Input.is_key_pressed(KEY_ALT):
+			move = move.to_lower()
+		var modifier = ""
+		if Input.is_key_pressed(KEY_SHIFT):
+			modifier = "'"
+		elif Input.is_key_pressed(KEY_CONTROL):
+			modifier = "2"
+		
+		move = move + modifier
+		add_move_from_notation(move)
+
+
 func _process(delta):
 	if rotating:
 		while animation_time <= 0 and not move_queue.empty():
