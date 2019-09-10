@@ -56,6 +56,103 @@ func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : float = PI / 2
 	move_queue.append([axis, pos1, pos2, angle, time])
 
 
+func add_move_from_notation(move : String):
+	var move_full = move
+	var axis = Vector3.ZERO
+	var pos1 = 0.5 - size / 2.0
+	var pos2 = pos1
+	var angle = PI / 2
+	var invert = 1
+	var time = rotation_duration
+	if move.ends_with("2"):
+		angle *= 2
+		time *= 2
+		move = move.left(move.length() - 1)
+	if move.ends_with("'"):
+		invert = -1
+		move = move.left(move.length() - 1)
+	
+	match move:
+		"F", "f":
+			axis = Vector3(0, 0, 1)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			if move == "F":
+				pos2 = pos1
+			else:
+				pos2 = pos1 - 1
+			angle *= -1
+		"B", "b":
+			axis = Vector3(0, 0, 1)
+			if move == "b":
+				pos2 = pos1 + 1
+		"L", "l":
+			axis = Vector3(1, 0, 0)
+			if move == "l":
+				pos2 = pos1 + 1
+		"R", "r":
+			axis = Vector3(1, 0, 0)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			if move == "R":
+				pos2 = pos1
+			else:
+				pos2 = pos1 - 1
+			angle *= -1
+		"U", "u":
+			axis = Vector3(0, 1, 0)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			if move == "U":
+				pos2 = pos1
+			else:
+				pos2 = pos1 - 1
+			angle *= -1
+		"D", "d":
+			axis = Vector3(0, 1, 0)
+			if move == "d":
+				pos2 = pos1 + 1
+		"M":
+			if size != 3:
+				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				return
+			axis = Vector3(1, 0, 0)
+			pos1 += 1
+			pos2 = pos1
+		"E":
+			if size != 3:
+				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				return
+			axis = Vector3(0, 1, 0)
+			pos1 += 1
+			pos2 = pos1
+			angle *= -1
+		"S":
+			if size != 3:
+				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				return
+			axis = Vector3(0, 0, 1)
+			pos1 += 1
+			pos2 = pos1
+			angle *= -1
+		"X", "x":
+			axis = Vector3(1, 0, 0)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			angle *= -1
+		"Y", "y":
+			axis = Vector3(0, 1, 0)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			angle *= -1
+		"Z", "z":
+			axis = Vector3(0, 0, 1)
+			pos1 = 0.5 - size / 2.0 + size - 1
+			angle *= -1
+	
+	if axis == Vector3.ZERO:
+		OS.alert("Invalid move: %s" % [move_full])
+		return
+	
+	angle *= invert
+	add_move(axis, pos1, pos2, angle, time)
+
+
 func play_next_move():
 	if not move_queue.empty():
 		var move = move_queue[0]
