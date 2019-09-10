@@ -95,7 +95,7 @@ func _process(delta):
 		play_next_move()
 
 
-func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : float = PI / 2, time : float = rotation_duration):
+func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, time : float = rotation_duration):
 	move_queue.append([axis, pos1, pos2, angle, time])
 
 
@@ -104,7 +104,7 @@ func add_move_from_notation(move : String):
 	var axis = Vector3.ZERO
 	var pos1 = 0.5 - size / 2.0
 	var pos2 = pos1
-	var angle = PI / 2
+	var angle = 1
 	var invert = 1
 	var time = rotation_duration
 	if move.ends_with("2"):
@@ -203,14 +203,14 @@ func play_next_move():
 		move_queue.remove(0)
 
 
-func rotate_cells(angle : float = PI / 2, weight : float = 1.0):
+func rotate_cells(angle : int = 1, weight : float = 1.0):
 	for cell in rotating_cells:
 		cell.transform = cell.rotated_around_origin(rotation_axis, angle * weight)
 		if weight == 1.0:
 			cell.round_transform()
 
 
-func rotate_slice(axis : Vector3, pos1 : float, pos2 : float, angle : float = PI / 2, time : float = rotation_duration):
+func rotate_slice(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, time : float = rotation_duration):
 	rotating_cells = []
 	var num = abs(pos2 - pos1)
 	var start = min(pos1, pos2)
@@ -241,7 +241,7 @@ func scramble_cube():
 				axis = Vector3(0, 0, 1)
 		var angle_sign = 1 - 2 * (randi() % 2)
 		var pos = 0.5 - size / 2.0 + randi() % size
-		var angle = PI / 2 * (1 + randi() % 2) * angle_sign
+		var angle = (1 + randi() % 2) * angle_sign
 		add_move(axis, pos, pos, angle, scramble_time)
 
 
@@ -270,7 +270,7 @@ func is_solved(check_face_orientation = false):
 	return true
 
 
-func move_from_raycast(face : Face, axis : Vector3, vec : Vector3, angle : float = PI / 2):
+func move_from_raycast(face : Face, axis : Vector3, vec : Vector3, angle : int = 1):
 	var pos = face.get_parent().transform.origin
 	match axis:
 		Vector3(1, 0, 0), Vector3(-1, 0, 0):

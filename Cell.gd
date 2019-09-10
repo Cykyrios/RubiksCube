@@ -28,7 +28,7 @@ func set_target_rotation(axis : Vector3, angle : float):
 
 func rotated_around_origin(axis : Vector3, angle : float) -> Transform:
 	var offset = transform.origin
-	return _xform_start.translated(-offset).rotated(axis, angle).translated(offset)
+	return _xform_start.translated(-offset).rotated(axis, angle * PI / 2).translated(offset)
 
 
 func add_face(direction : Vector3):
