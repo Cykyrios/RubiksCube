@@ -18,6 +18,8 @@ export (float, 0.2, 5) var move_threshold = 0.5
 export (float, 0.2, 5) var mouse_sensitivity = 1.0
 export (float, 0.2, 5) var touch_sensitivity = 1.0
 
+var ready_to_solve = false
+var solving = false
 var timer_running = false
 var time = 0.0
 
@@ -80,7 +82,7 @@ func _physics_process(delta):
 				var unproj = camera.unproject_position(intersection) - camera.unproject_position(p)
 				if unproj.length() >= 0.1 * move_threshold * min(view.x, view.y):
 					process_move(move)
-					if not timer_running:
+					if ready_to_solve:
 						emit_signal("first_move_made")
 				selected_face = null
 	
@@ -190,6 +192,8 @@ func process_move(vec : Vector3):
 
 func _on_gui_scramble():
 	cube.scramble_cube()
+	solving = false
+	ready_to_solve = true
 	time = 0.0
 	timer_running = false
 	gui.update_time_label(time)
@@ -197,6 +201,7 @@ func _on_gui_scramble():
 
 func _on_gui_reset():
 	cube.reset_cube()
+	solving = false
 	time = 0.0
 	timer_running = false
 	gui.update_time_label(time)
@@ -204,16 +209,25 @@ func _on_gui_reset():
 
 func _on_gui_change_size(size : int):
 	cube.set_size(size)
+	solving = false
+	time = 0.0
+	timer_running = false
+	gui.update_time_label(time)
 
 
 func _on_first_move():
+	ready_to_solve = false
+	solving = true
 	reset_timer()
 	start_timer()
 
 
 func _on_cube_solved():
-	stop_timer()
-	gui.update_time_label(time)
+	if solving:
+		stop_timer()
+		gui.update_time_label(time)
+		solving = false
+		print("Solved!")
 
 
 func start_timer():

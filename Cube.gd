@@ -271,7 +271,6 @@ func is_solved(check_face_orientation = false):
 						else:
 							if (cell.transform * face.transform).basis.x != tangent:
 								return false
-	print("Solved!")
 	emit_signal("solved")
 	return true
 
