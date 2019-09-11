@@ -2,6 +2,8 @@
 extends Spatial
 class_name Cube
 
+onready var tween = $Tween
+
 export (int, 2, 7) var size = 3 setget set_size
 export var colors = [Color(1, 1, 1), Color(1, 1, 0), Color(0.15, 0.9, 0.15),
 		Color(0.15, 0.15, 0.9), Color(1, 0.5, 0), Color(0.9, 0.15, 0.15)]
@@ -81,13 +83,10 @@ func _process(delta):
 		while animation_time <= 0 and not move_queue.empty():
 			rotate_cells(rotation_angle)
 			play_next_move()
-		if animation_time > 0:
-			t += delta / animation_time
-		else:
-			t = 1
 		if t < 1:
 			rotate_cells(rotation_angle, t)
 		else:
+			tween.remove(self)
 			rotating = false
 			t = 0
 			rotate_cells(rotation_angle)
@@ -226,6 +225,12 @@ func rotate_slice(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, t
 	rotation_angle = angle
 	rotating = true
 	animation_time = time
+	tween.interpolate_method(self, "update_tween", 0, 1, animation_time, tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.start()
+
+
+func update_tween(x : float):
+	t = x
 
 
 func scramble_cube():
