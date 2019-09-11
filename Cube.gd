@@ -3,7 +3,8 @@ extends Spatial
 class_name Cube
 
 export (int, 2, 7) var size = 3 setget set_size
-export var colors = [Color(1, 1, 1), Color(1, 1, 0), Color(0, 1, 0), Color(0, 0, 1), Color(1, 0.5, 0), Color(1, 0, 0)]
+export var colors = [Color(1, 1, 1), Color(1, 1, 0), Color(0.15, 0.9, 0.15),
+		Color(0.15, 0.15, 0.9), Color(1, 0.5, 0), Color(0.9, 0.15, 0.15)]
 var textures = [load("res://Assets/Textures/Godot_White.png"), load("res://Assets/Textures/Godot_Yellow.png"),
 		load("res://Assets/Textures/Godot_Green.png"), load("res://Assets/Textures/Godot_Blue.png"),
 		load("res://Assets/Textures/Godot_Orange.png"), load("res://Assets/Textures/Godot_Red.png")]
