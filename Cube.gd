@@ -10,7 +10,7 @@ export var colors = [Color(1, 1, 1), Color(1, 1, 0), Color(0.15, 0.9, 0.15),
 var textures = [load("res://Assets/Textures/Godot_White.png"), load("res://Assets/Textures/Godot_Yellow.png"),
 		load("res://Assets/Textures/Godot_Green.png"), load("res://Assets/Textures/Godot_Blue.png"),
 		load("res://Assets/Textures/Godot_Orange.png"), load("res://Assets/Textures/Godot_Red.png")]
-export (bool) var show_textures = false
+var show_textures = false
 
 var cells = []
 var rotating_cells = []
@@ -520,3 +520,9 @@ func update_faces_uv(tile = false):
 					Vector3(0, 0, -1):
 						uv_offset = Vector3(1 - 1.0 / size - pos.x, 1 - 1.0 / size - pos.y, 0)
 				face.set_face_uv(uv_size, uv_offset)
+
+
+func update_colors():
+	for cell in cells:
+		for face in cell.faces:
+			face.color_face()

@@ -34,6 +34,8 @@ func _ready():
 	gui.connect("gui_scramble", self, "_on_gui_scramble")
 	gui.connect("gui_reset", self, "_on_gui_reset")
 	gui.connect("gui_change_size", self, "_on_gui_change_size")
+	gui.connect("gui_show_textures", self, "_on_gui_show_textures")
+	gui.connect("gui_check_orientation", self, "_on_gui_check_orientation")
 	
 	var cam_offset = camera.global_transform.origin
 	camera.transform = camera.transform.translated(-cam_offset).rotated(Vector3.RIGHT, -PI / 6
@@ -213,6 +215,15 @@ func _on_gui_change_size(size : int):
 	time = 0.0
 	timer_running = false
 	gui.update_time_label(time)
+
+
+func _on_gui_show_textures(show_textures : bool):
+	cube.show_textures = show_textures
+	cube.update_colors()
+
+
+func _on_gui_check_orientation(check_orientation : bool):
+	cube.check_orientation = check_orientation
 
 
 func _on_first_move():
