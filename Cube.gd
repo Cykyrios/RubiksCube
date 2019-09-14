@@ -295,6 +295,10 @@ func move_from_raycast(face : Face, axis : Vector3, vec : Vector3, angle : int =
 				vec = Vector3(0, 1, 0) * sign(vec.y)
 	var rot_axis = axis.cross(vec)
 	pos = (pos * rot_axis).dot(rot_axis)
+	match rot_axis:
+		Vector3(-1, 0, 0), Vector3(0, -1, 0), Vector3(0, 0, -1):
+			rot_axis = -rot_axis
+			angle = -angle
 	add_move(rot_axis, pos, pos, angle)
 
 
