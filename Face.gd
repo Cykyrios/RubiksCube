@@ -44,12 +44,7 @@ func init_face(direction : Vector3):
 			side = FRONT
 	round_transform()
 	
-	if get_parent().get_parent().show_textures:
-		set_texture(get_parent().get_parent().textures[side])
-		set_color(Color(1, 1, 1), false)
-	else:
-		set_texture(null)
-		set_color(get_parent().get_parent().colors[side])
+	color_face()
 
 
 func round_transform():
@@ -60,6 +55,15 @@ func round_transform():
 	var z = Vector3(stepify(b.z.x, 1), stepify(b.z.y, 1), stepify(b.z.z, 1))
 	o = Vector3(stepify(o.x, 0.5), stepify(o.y, 0.5), stepify(o.z, 0.5))
 	transform = Transform(x, y, z, o).orthonormalized()
+
+
+func color_face():
+	if get_parent().get_parent().show_textures:
+		set_texture(get_parent().get_parent().textures[side])
+		set_color(Color(1, 1, 1), false)
+	else:
+		set_texture(null)
+		set_color(get_parent().get_parent().colors[side])
 
 
 func set_color(c : Color, emission : bool = true):
