@@ -23,6 +23,9 @@ export (float, 0.0, 0.1) var scramble_time = 0.001
 var animation_time = 0.0
 var move_queue = []
 
+var moves = []
+var move_idx = 0
+
 export (bool) var check_orientation = false
 
 var cell_scene = preload("res://Cell.tscn")
@@ -63,6 +66,12 @@ func _input(event):
 				move = "Y"
 			KEY_Z:
 				move = "Z"
+			KEY_PAGEUP:
+				undo_move()
+				return
+			KEY_PAGEDOWN:
+				redo_move()
+				return
 			_:
 				return
 		
@@ -95,11 +104,16 @@ func _process(delta):
 		play_next_move()
 
 
-func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, time : float = rotation_duration):
+func play_move(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, time : float = rotation_duration):
 	move_queue.append([axis, pos1, pos2, angle, time])
 
 
-func add_move_from_notation(move : String):
+func add_move(axis : Vector3, pos1 : float, pos2 : float, angle : int = 1, time : float = rotation_duration):
+	play_move(axis, pos1, pos2, angle, time)
+	write_move(axis, pos1, pos2, angle)
+
+
+func play_move_from_notation(move : String):
 	var move_full = move
 	var axis = Vector3.ZERO
 	var pos1 = 0.5 - size / 2.0
@@ -193,7 +207,116 @@ func add_move_from_notation(move : String):
 		return
 	
 	angle *= invert
-	add_move(axis, pos1, pos2, angle, time)
+	play_move(axis, pos1, pos2, angle, time)
+
+
+func add_move_from_notation(move : String):
+	play_move_from_notation(move)
+	write_move_from_notation(move)
+
+
+func write_move(axis : Vector3, pos1 : float, pos2 : float, angle : int):
+	var move = ""
+	
+	match axis:
+		Vector3(1, 0, 0):
+			if pos1 == 0.5 - size / 2.0:
+				if pos2 == pos1:
+					move = "L"
+				elif pos2 == pos1 + 1:
+					move = "l"
+				elif pos2 == pos1 + size - 1:
+					move = "X"
+			elif pos1 == 0.5 - size / 2.0 + size - 1:
+				if pos2 == pos1:
+					move = "R'"
+				elif pos2 == pos1 - 1:
+					move = "r'"
+				elif pos2 == 0.5 - size / 2.0:
+					move = "X'"
+			elif pos1 == 0.5 - size / 2.0 + 1:
+				if pos2 == pos1:
+					move = "M"
+		Vector3(0, 1, 0):
+			if pos1 == 0.5 - size / 2.0:
+				if pos2 == pos1:
+					move = "D"
+				elif pos2 == pos1 + 1:
+					move = "d"
+				elif pos2 == pos1 + size - 1:
+					move = "Y"
+			elif pos1 == 0.5 - size / 2.0 + size - 1:
+				if pos2 == pos1:
+					move = "U'"
+				elif pos2 == pos1 - 1:
+					move = "u'"
+				elif pos2 == 0.5 - size / 2.0:
+					move = "Y'"
+			elif pos1 == 0.5 - size / 2.0 + 1:
+				if pos2 == pos1:
+					move = "E'"
+		Vector3(0, 0, 1):
+			if pos1 == 0.5 - size / 2.0:
+				if pos2 == pos1:
+					move = "B"
+				elif pos2 == pos1 + 1:
+					move = "b"
+				elif pos2 == pos1 + size - 1:
+					move = "Z"
+			elif pos1 == 0.5 - size / 2.0 + size - 1:
+				if pos2 == pos1:
+					move = "F'"
+				elif pos2 == pos1 - 1:
+					move = "f'"
+				elif pos2 == 0.5 - size / 2.0:
+					move = "Z'"
+			elif pos1 == 0.5 - size / 2.0 + 1:
+				if pos2 == pos1:
+					move = "S'"
+	
+	if move == "":
+		print("Error: could not write move")
+		return
+	
+	if angle % 2 == 0:
+		move += "2"
+	if angle < 0:
+		if "'" in move:
+			move = move.replace("'", "")
+		else:
+			move += "'"
+	write_move_from_notation(move)
+
+
+func write_move_from_notation(move : String):
+	if move_idx < moves.size():
+		moves.resize(move_idx)
+	moves.append(move)
+	move_idx += 1
+	print(move)
+
+
+func undo_move():
+	if moves.empty() or move_idx <= 0:
+		return
+	move_idx -= 1
+	var move = moves[move_idx]
+	if "'" in move:
+		move = move.replace("'", "")
+	else:
+		if move.ends_with("2"):
+			move = move.replace("2", "'2")
+		else:
+			move += "'"
+	
+	play_move_from_notation(move)
+
+
+func redo_move():
+	if moves.empty() or move_idx >= moves.size():
+		return
+	play_move_from_notation(moves[move_idx])
+	move_idx += 1
 
 
 func play_next_move():
@@ -360,6 +483,8 @@ func reset_cube():
 	rotating = false
 	t = 0
 	move_queue.clear()
+	moves.clear()
+	move_idx = 0
 	for cell in cells:
 		cell.reset()
 
