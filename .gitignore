@@ -1,5 +1,6 @@
-.import/
-export.cfg
-export_presets.cfg
+# Godot 4+ specific ignores
+.godot/
 
-.mono/
+# Export folder and configuration
+export/
+export_presets.cfg
