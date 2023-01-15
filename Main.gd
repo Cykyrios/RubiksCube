@@ -240,6 +240,23 @@ func _on_cube_solved() -> void:
 		gui.update_time_label(time)
 		solving = false
 		print("Solved!")
+		var popup := PanelContainer.new()
+		var vbox := VBoxContainer.new()
+		var label := Label.new()
+		label.text = "Well done!"
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var button := Button.new()
+		button.text = "Close"
+		vbox.add_child(label)
+		vbox.add_child(button)
+		popup.add_child(vbox)
+		gui.add_child(popup)
+		popup.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		popup.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		popup.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
+		button.pressed.connect(func(): popup.queue_free())
 
 
 func start_timer() -> void:
