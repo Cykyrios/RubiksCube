@@ -1,21 +1,23 @@
 extends StaticBody3D
 class_name Face
 
-var mat := preload("res://FaceMaterial.tres")
+var mat := preload("res://Assets/Meshes/face_material.tres")
 var color := Color(0, 0, 0, 1)
 var texture: CompressedTexture2D = null
 
 enum Side {TOP, BOTTOM, FRONT, BACK, LEFT, RIGHT}
 var side: Side
 
+@onready var mesh_instance := $MeshInstance3D as MeshInstance3D
+
 
 func _ready() -> void:
-	mat = mat.duplicate(true)
-	$MeshInstance3D.material_override = mat
+	mat = mat.duplicate(true) as StandardMaterial3D
+	mesh_instance.material_override = mat
 	mat.albedo_color = color
 	mat.albedo_texture = texture
 	mat.emission = color
-	mat.emission_energy = 1.0
+	mat.emission_energy_multiplier = 1.0
 	mat.emission_enabled = false
 
 
@@ -40,26 +42,15 @@ func init_face(direction: Vector3) -> void:
 			side = Side.FRONT
 	round_transform()
 
-	color_face()
-
 
 func round_transform() -> void:
-	var o = transform.origin
-	var b = transform.basis
-	var x = Vector3(snapped(b.x.x, 1), snapped(b.x.y, 1), snapped(b.x.z, 1))
-	var y = Vector3(snapped(b.y.x, 1), snapped(b.y.y, 1), snapped(b.y.z, 1))
-	var z = Vector3(snapped(b.z.x, 1), snapped(b.z.y, 1), snapped(b.z.z, 1))
+	var o := transform.origin
+	var b := transform.basis
+	var x := Vector3(snapped(b.x.x, 1), snapped(b.x.y, 1), snapped(b.x.z, 1))
+	var y := Vector3(snapped(b.y.x, 1), snapped(b.y.y, 1), snapped(b.y.z, 1))
+	var z := Vector3(snapped(b.z.x, 1), snapped(b.z.y, 1), snapped(b.z.z, 1))
 	o = Vector3(snapped(o.x, 0.5), snapped(o.y, 0.5), snapped(o.z, 0.5))
 	transform = Transform3D(x, y, z, o).orthonormalized()
-
-
-func color_face() -> void:
-	if get_parent().get_parent().show_textures:
-		set_texture(get_parent().get_parent().textures[side])
-		set_color(Color(1, 1, 1), false)
-	else:
-		set_texture(null)
-		set_color(get_parent().get_parent().colors[side])
 
 
 func set_color(c: Color, emission: bool = true) -> void:
@@ -71,7 +62,7 @@ func set_color(c: Color, emission: bool = true) -> void:
 		mat.emission = Color(0, 0, 0)
 
 
-func set_texture(t: Texture2D) -> void:
+func set_texture(t: CompressedTexture2D) -> void:
 	texture = t
 	mat.albedo_texture = texture
 	mat.emission_texture = texture

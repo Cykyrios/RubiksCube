@@ -447,6 +447,7 @@ func init_cube() -> void:
 				var c := (k - size / 2.0 + 0.5) * 2 / (size - 1)
 				cell.init_cell(type, a, b, c)
 	update_faces_uv()
+	update_colors()
 
 
 func reset_cube() -> void:
@@ -493,4 +494,9 @@ func update_faces_uv(tile: bool = false) -> void:
 func update_colors() -> void:
 	for cell in cells:
 		for face in cell.faces:
-			face.color_face()
+			if show_textures:
+				face.set_texture(textures[face.side])
+				face.set_color(Color.WHITE, false)
+			else:
+				face.set_texture(null)
+				face.set_color(colors[face.side], true)
