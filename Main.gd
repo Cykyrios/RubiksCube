@@ -204,6 +204,7 @@ func _on_gui_scramble() -> void:
 func _on_gui_reset() -> void:
 	cube.reset_cube()
 	solving = false
+	ready_to_solve = false
 	time = 0.0
 	timer_running = false
 	gui.update_time_label(time)
