@@ -47,7 +47,7 @@ _global_script_class_icons={
 config/name="RubiksCube"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0")
-config/icon="res://icon.png"
+config/icon="res://rubiks_cube.png"
 config/use_hidpi=true
 
 [display]

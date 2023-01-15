@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgltfy604776y"]
 
 [ext_resource type="Script" path="res://GUI.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dbv1hslwpohbi" path="res://icon.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cggblqvo5qnty" path="res://rubiks_cube.png" id="2_fnysk"]
 
 [node name="GUI" type="MarginContainer"]
 anchors_preset = 15
@@ -133,4 +133,4 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-texture_normal = ExtResource("3")
+texture_normal = ExtResource("2_fnysk")
