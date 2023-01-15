@@ -137,14 +137,14 @@ func play_move_from_notation(move: String) -> void:
 				pos2 = pos1 + 1
 		"M":
 			if size != 3:
-				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				print("Invalid move for size %s: \"%s\"" % [str(size), move_full])
 				return
 			axis = Vector3(1, 0, 0)
 			pos1 += 1
 			pos2 = pos1
 		"E":
 			if size != 3:
-				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				print("Invalid move for size %s: \"%s\"" % [str(size), move_full])
 				return
 			axis = Vector3(0, 1, 0)
 			pos1 += 1
@@ -152,7 +152,7 @@ func play_move_from_notation(move: String) -> void:
 			angle *= -1
 		"S":
 			if size != 3:
-				OS.alert("Invalid move for size %s: \"%s\"" % [str(size), move_full])
+				print("Invalid move for size %s: \"%s\"" % [str(size), move_full])
 				return
 			axis = Vector3(0, 0, 1)
 			pos1 += 1
@@ -172,7 +172,7 @@ func play_move_from_notation(move: String) -> void:
 			angle *= -1
 
 	if axis == Vector3.ZERO:
-		OS.alert("Invalid move: %s" % [move_full])
+		print("Invalid move: %s" % [move_full])
 		return
 
 	angle *= reverse
