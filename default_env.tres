@@ -4,4 +4,8 @@
 
 [resource]
 sky = SubResource("1")
-ambient_light_color = Color(0.352941, 0.352941, 0.352941, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.2
+tonemap_mode = 3
+volumetric_fog_density = 0.1
