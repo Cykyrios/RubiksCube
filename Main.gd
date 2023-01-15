@@ -47,12 +47,13 @@ func _ready() -> void:
 		$Camera3D/PerformanceLights.queue_free()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if timer_running:
+		time += delta
 		gui.update_time_label(time)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if raycast_event:
 		raycast_event = false
 		if select_event:
@@ -87,8 +88,6 @@ func _physics_process(delta: float) -> void:
 					if ready_to_solve:
 						first_move_made.emit()
 				selected_face = null
-	if timer_running:
-		time += delta
 
 
 func _input(event: InputEvent) -> void:

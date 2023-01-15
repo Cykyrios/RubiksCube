@@ -55,8 +55,8 @@ func change_cube_size(cube_size: int) -> void:
 
 func update_time_label(time: float) -> void:
 	var minutes := floori(time / 60)
-	var seconds := (time - minutes * 60)
-	var dec := (time - minutes * 60 - seconds) * 100
+	var seconds := floori(time - minutes * 60)
+	var dec := floori((time - minutes * 60 - seconds) * 100 as float)
 	time_label.text = "Time: %02d:%02d.%02d" % [minutes, seconds, dec]
 
 
