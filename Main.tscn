@@ -1,80 +1,70 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://w7y5o5rhlbkk"]
 
-[ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://GUI.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Cube.tscn" type="PackedScene" id=3]
-[ext_resource path="res://CameraEnvironment.tres" type="Environment" id=4]
+[ext_resource type="Script" path="res://Main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bgltfy604776y" path="res://GUI.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://dns1yhcd5clb5" path="res://Cube.tscn" id="3"]
+[ext_resource type="Environment" path="res://CameraEnvironment.tres" id="4"]
 
-[node name="Spatial" type="Spatial"]
-script = ExtResource( 1 )
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1")
 
-[node name="GUI" parent="." instance=ExtResource( 2 )]
+[node name="GUI" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
 
-[node name="Cube" parent="." instance=ExtResource( 3 )]
+[node name="Cube" parent="." instance=ExtResource("3")]
+unique_name_in_owner = true
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
-environment = ExtResource( 4 )
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+environment = ExtResource("4")
 current = true
+fov = 35.0
 
-[node name="PerformanceLights" type="Spatial" parent="Camera"]
-editor/display_folded = true
+[node name="PerformanceLights" type="Node3D" parent="Camera3D"]
 
-[node name="OmniLight9" type="OmniLight" parent="Camera/PerformanceLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, 0 )
-light_energy = 0.5
+[node name="OmniLight9" type="OmniLight3D" parent="Camera3D/PerformanceLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, 0)
 omni_range = 20.0
 
-[node name="OmniLight10" type="OmniLight" parent="Camera/PerformanceLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0 )
-light_energy = 0.5
+[node name="OmniLight10" type="OmniLight3D" parent="Camera3D/PerformanceLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 omni_range = 20.0
 
-[node name="OmniLight11" type="OmniLight" parent="Camera/PerformanceLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
-light_energy = 0.5
+[node name="OmniLight11" type="OmniLight3D" parent="Camera3D/PerformanceLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 omni_range = 20.0
 
-[node name="QualityLights" type="Spatial" parent="."]
-editor/display_folded = true
+[node name="QualityLights" type="Node3D" parent="."]
 
-[node name="OmniLight1" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, -5 )
-light_energy = 0.5
+[node name="OmniLight1" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, -5)
 omni_range = 20.0
 
-[node name="OmniLight2" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 5 )
-light_energy = 0.5
+[node name="OmniLight2" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 5)
 omni_range = 20.0
 
-[node name="OmniLight3" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 5 )
-light_energy = 0.5
+[node name="OmniLight3" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 5)
 omni_range = 20.0
 
-[node name="OmniLight4" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, -5 )
-light_energy = 0.5
+[node name="OmniLight4" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, -5)
 omni_range = 20.0
 
-[node name="OmniLight5" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, -5 )
-light_energy = 0.5
+[node name="OmniLight5" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, -5)
 omni_range = 20.0
 
-[node name="OmniLight6" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 5 )
-light_energy = 0.5
+[node name="OmniLight6" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 5)
 omni_range = 20.0
 
-[node name="OmniLight7" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 5 )
-light_energy = 0.5
+[node name="OmniLight7" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 5)
 omni_range = 20.0
 
-[node name="OmniLight8" type="OmniLight" parent="QualityLights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, -5 )
-light_energy = 0.5
+[node name="OmniLight8" type="OmniLight3D" parent="QualityLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, -5)
 omni_range = 20.0
-
