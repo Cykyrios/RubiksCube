@@ -6,18 +6,18 @@ signal gui_change_size
 signal gui_show_textures
 signal gui_check_orientation
 
-@onready var main_menu := %MainMenu as VBoxContainer
+@onready var main_menu := %MainMenuPanel as PanelContainer
 @onready var button_settings := %ButtonSettings as Button
 @onready var button_scramble := %ButtonScramble as Button
 @onready var button_reset := %ButtonReset as Button
 
-@onready var settings_menu := %SettingsMenu as VBoxContainer
+@onready var settings_menu := %SettingsMenuPanel as PanelContainer
 @onready var button_size := %ButtonSize as Button
 @onready var button_textures := %ButtonTextures as CheckButton
 @onready var button_orientation := %ButtonOrientation as CheckButton
 @onready var button_settings_back := %ButtonSettingsBack as Button
 
-@onready var size_menu := %SizeMenu as VBoxContainer
+@onready var size_menu := %SizeMenuPanel as PanelContainer
 @onready var button_size_2 := %ButtonSize2 as Button
 @onready var button_size_3 := %ButtonSize3 as Button
 @onready var button_size_4 := %ButtonSize4 as Button
